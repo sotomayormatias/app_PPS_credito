@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
+import * as firebase from 'firebase';
+import { snapshotToArray } from '../../app/app.firebase.config';
 
-import { User } from '../../providers';
 import { MainPage } from '../';
 
 @IonicPage()
@@ -15,36 +16,68 @@ export class LoginPage {
   // If you're using the username field with or without email, make
   // sure to add it to the type
   account: { email: string, password: string } = {
-    email: 'test@example.com',
-    password: 'test'
+    email: '',
+    password: ''
   };
 
-  // Our translated text strings
-  private loginErrorString: string;
+  ref = firebase.database().ref('usuarios/');
+  users: any[];
+  splash = true;
 
   constructor(public navCtrl: NavController,
-    public user: User,
     public toastCtrl: ToastController,
     public translateService: TranslateService) {
-
-    this.translateService.get('LOGIN_ERROR').subscribe((value) => {
-      this.loginErrorString = value;
-    })
+      this.ref.on('value', resp => {
+        this.users = snapshotToArray(resp);
+      });
+  }
+  
+  ionViewDidLoad() {
+    setTimeout(() => this.splash = false, 4000);
   }
 
   // Attempt to login in through our User service
   doLogin() {
-    this.user.login(this.account).subscribe((resp) => {
-      this.navCtrl.push(MainPage);
-    }, (err) => {
-      this.navCtrl.push(MainPage);
-      // Unable to log in
-      let toast = this.toastCtrl.create({
-        message: this.loginErrorString,
+    let usuarioLogueado = this.users.find(elem => (elem.correo == this.account.email && elem.clave == this.account.password));
+
+    if (usuarioLogueado !== undefined) {
+      sessionStorage.setItem('usuario', JSON.stringify(usuarioLogueado));
+      this.navCtrl.setRoot(MainPage);
+    } else {
+      this.toastCtrl.create({
+        message: "Usuario o password incorrecto.",
         duration: 3000,
         position: 'top'
-      });
-      toast.present();
-    });
+      }).present();
+    }
+  }
+
+  cargarUsuario(usuario: string) {
+    switch (usuario) {
+      case "admin":
+        this.account.email = "admin@gmail.com";
+        this.account.password = "1111";
+        break;
+      case "invitado":
+        this.account.email = "invitado@gmail.com";
+        this.account.password = "2222";
+        break;
+      case "usuario":
+        this.account.email = "usuario@gmail.com";
+        this.account.password = "3333";
+        break;
+      case "anonimo":
+        this.account.email = "anonimo@gmail.com";
+        this.account.password = "4444";
+        break;
+      case "tester":
+        this.account.email = "tester@gmail.com";
+        this.account.password = "5555";
+        break;
+      default:
+        this.account.email = "";
+        this.account.password = "";
+        break;
+    }
   }
 }

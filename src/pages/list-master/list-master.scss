@@ -1,3 +1,65 @@
 page-list-master {
+    .content{
+        background-image: linear-gradient(45deg, #4fa49a, #4361c2);
+    }
 
+    #imageQrCreative {
+        display: block;
+        margin: 40px auto;
+        // margin-left: auto;
+        // margin-right: auto;
+        width: 150px;
+    }
+
+    #scannerqr{
+        height: 100%;
+        background: url('../assets/img/scannerQR.png') no-repeat;
+        text-align: center;
+        background-size: 80%;
+        background-position: center;
+        margin-top: 0%;
+        visibility: visible;
+    }
+    
+    // #btnScaneo{
+    //     height: 50px;
+    //     margin: 80px 0;
+    // }
+
+    // #btnDelete{
+    //     height: 50px;
+    //     margin: 80px 0;
+    // }
+
+    .containerButtonCenter button {
+        height: 50px;
+        margin-top: 40px;
+    }
+    
+    .hidden{
+        visibility: hidden;
+    }
+    
+    .visible{
+        visibility: visible !important;
+    }
+
+    .containerButtonCenter {
+        text-align: center;
+    }
+
+    #creditTotalText {
+        text-align: center;
+        color: #FFF;
+        font-size: 40px;
+    }
 }
+
+// .transparentBody { 
+//     background-color: transparent !important;
+// }
+
+ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-decor {
+    background: transparent none !important; 
+}
+

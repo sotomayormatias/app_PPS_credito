@@ -1,5 +1,7 @@
 {
   "name": "app1_credito",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }

@@ -3,6 +3,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { Config, Nav, Platform } from 'ionic-angular';
+import * as firebase from 'firebase';
+import { FIREBASE_CONFIG } from './app.firebase.config';
 
 import { FirstRunPage } from '../pages';
 import { Settings } from '../providers';
@@ -53,6 +55,7 @@ export class MyApp {
       this.splashScreen.hide();
     });
     this.initTranslate();
+    firebase.initializeApp(FIREBASE_CONFIG);
   }
 
   initTranslate() {
